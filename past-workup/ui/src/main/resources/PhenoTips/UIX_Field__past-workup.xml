@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  org.phenotips.patientSheet.section.medical-history
+  org.phenotips.patientSheet.field.past-workup
+
+
+  {{include reference="PhenoTips.PatientSheetMacros" /}}
+
+  {{include reference="PhenoTips.TabelarDataMacros" /}}
+
+  {{velocity}}
+  #set ($origObj = $obj)
+  #set ($obj = $doc.getObject('PhenoTips.PastWorkupClass', true))
+  #set ($origObjClass = $doc.getActiveClass())
+  #set ($discard = $doc.use($obj))
+  #set ($origClass = $class)
+  #set ($class = $xwiki.getClass('PhenoTips.PastWorkupClass'))
+  ##
+  #set ($targetClassName = 'PhenoTips.PastWorkupTestClass')
+  #if ($xcontext.action == 'edit' || $doc.getObject($targetClassName))
+  === $services.localization.render('Past Workup') ===
+
+  #__label('' 'section group-title' 'Tests Performed')
+
+  #__extradata_displayTable($targetClassName, {'counter' : true, 'mode' : $xcontext.action})
+
+  #end
+  ##
+  #__hasBooleanDataToDisplay('patient_enrolled' $showPatientEnrollment)
+  #if ($showPatientEnrollment)
+
+  #__label('' 'section group-title' 'Sequencing Project Enrollment')
+
+  #if ($xcontext.action == 'edit')
+  (% class="displayed-value"%)(((
+  $doc.display('patient_enrolled') #__label('patient_enrolled' '' "$class.get('patient_enrolled').translatedPrettyName")
+  )))
+  #else
+  (% class="displayed-value"%)(((
+  $class.get('patient_enrolled').translatedPrettyName
+  )))
+  #end
+  #end
+  ##
+  #set ($class = $origClass)
+  #set ($discard = $doc.use($origObj))
+  #set ($obj = $origObj)
+  {{/velocity}}
+
+
+
+
+  title=$services.localization.render('phenotips.UIXField.past-workup')
+  enabled=true
+  order=2
+  required=
+  fields=patient_enrolled
+  pt_class=PhenoTips.PastWorkupClass
+</body>
+</html>
