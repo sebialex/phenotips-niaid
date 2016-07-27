@@ -51,9 +51,30 @@
     </repository>
   </repositories>
 
+  <properties>
+    <license.check.file>${basedir}/checkstyle/file-header-license.txt</license.check.file>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <!-- Lock down plugin version for build reproducibility -->
+          <version>2.11</version>
+          <configuration>
+            <header>${license.check.file}</header>
+          </configuration>
+          </plugin>
+        </plugins>
+    </pluginManagement>
+  </build>
+
   <modules>
     <module>encrypted-pii</module>
     <module>biospecimen-tracking</module>
+    <module>past-workup</module>
     <module>distribution</module>
   </modules>
 </project>

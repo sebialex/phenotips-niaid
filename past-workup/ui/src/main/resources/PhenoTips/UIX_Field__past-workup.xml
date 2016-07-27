@@ -1,65 +1,181 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-  org.phenotips.patientSheet.section.medical-history
-  org.phenotips.patientSheet.field.past-workup
+<?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+ * This file is subject to the terms and conditions defined in file LICENSE,
+ * which is part of this source code package.
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+-->
 
-  {{include reference="PhenoTips.PatientSheetMacros" /}}
-
-  {{include reference="PhenoTips.TabelarDataMacros" /}}
-
-  {{velocity}}
-  #set ($origObj = $obj)
-  #set ($obj = $doc.getObject('PhenoTips.PastWorkupClass', true))
-  #set ($origObjClass = $doc.getActiveClass())
-  #set ($discard = $doc.use($obj))
-  #set ($origClass = $class)
-  #set ($class = $xwiki.getClass('PhenoTips.PastWorkupClass'))
-  ##
-  #set ($targetClassName = 'PhenoTips.PastWorkupTestClass')
-  #if ($xcontext.action == 'edit' || $doc.getObject($targetClassName))
-  === $services.localization.render('Past Workup') ===
-
-  #__label('' 'section group-title' 'Tests Performed')
-
-  #__extradata_displayTable($targetClassName, {'counter' : true, 'mode' : $xcontext.action})
-
-  #end
-  ##
-  #__hasBooleanDataToDisplay('patient_enrolled' $showPatientEnrollment)
-  #if ($showPatientEnrollment)
-
-  #__label('' 'section group-title' 'Sequencing Project Enrollment')
-
-  #if ($xcontext.action == 'edit')
-  (% class="displayed-value"%)(((
-  $doc.display('patient_enrolled') #__label('patient_enrolled' '' "$class.get('patient_enrolled').translatedPrettyName")
-  )))
-  #else
-  (% class="displayed-value"%)(((
-  $class.get('patient_enrolled').translatedPrettyName
-  )))
-  #end
-  #end
-  ##
-  #set ($class = $origClass)
-  #set ($discard = $doc.use($origObj))
-  #set ($obj = $origObj)
-  {{/velocity}}
-
-
-
-
-  title=$services.localization.render('phenotips.UIXField.past-workup')
-  enabled=true
-  order=2
-  required=
-  fields=patient_enrolled
-  pt_class=PhenoTips.PastWorkupClass
-</body>
-</html>
+<xwikidoc version="1.1">
+  <web>PhenoTips</web>
+  <name>UIX_Field__past-workup</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1469556399000</creationDate>
+  <parent>PhenoTips.PatientSheet</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1469650171000</date>
+  <contentUpdateDate>1469558278000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Past Workup</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content/>
+  <object>
+    <name>PhenoTips.UIX_Field__past-workup</name>
+    <number>0</number>
+    <className>XWiki.UIExtensionClass</className>
+    <guid>067366fc-4d9b-43f3-a9c2-4853fe87755d</guid>
+    <class>
+      <name>XWiki.UIExtensionClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <content>
+        <disabled>0</disabled>
+        <name>content</name>
+        <number>3</number>
+        <prettyName>Extension Content</prettyName>
+        <rows>10</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </content>
+      <extensionPointId>
+        <disabled>0</disabled>
+        <name>extensionPointId</name>
+        <number>1</number>
+        <prettyName>Extension Point ID</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </extensionPointId>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>2</number>
+        <prettyName>Extension ID</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parameters>
+        <disabled>0</disabled>
+        <name>parameters</name>
+        <number>4</number>
+        <prettyName>Extension Parameters</prettyName>
+        <rows>10</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </parameters>
+      <scope>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>5</number>
+        <prettyName>Extension Scope</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>wiki=Current Wiki|user=Current User|global=Global</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <property>
+      <content>{{include reference="PhenoTips.PatientSheetMacros" /}}
+        
+        {{include reference="PhenoTips.TabelarDataMacros" /}}
+        
+        {{velocity}}
+        
+        #macro (__displayCheckbox $propertyHasContent $propertyName $class)
+        #if($propertyHasContent)
+        #if ($xcontext.action == 'edit')
+        (% class="displayed-value"%)(((
+        $doc.display($propertyName) #__label($propertyName '' "$class.get($propertyName).translatedPrettyName")
+        )))
+        #else
+        (% class="displayed-value"%)(((
+        $class.get($propertyName).translatedPrettyName
+        )))
+        #end
+        #end
+        #end
+        ##
+        #set ($origObj = $obj)
+        #set ($obj = $doc.getObject('PhenoTips.PastWorkupClass', true))
+        #set ($origObjClass = $doc.getActiveClass())
+        #set ($discard = $doc.use($obj))
+        #set ($origClass = $class)
+        #set ($class = $xwiki.getClass('PhenoTips.PastWorkupClass'))
+        #set ($targetClassName = 'PhenoTips.PastWorkupTestClass')
+        ##
+        ## Check if contents exist
+        ##
+        #set($past_tests_done = $doc.getObject($targetClassName))
+        #set($editMode = $xcontext.action == 'edit')
+        #__hasBooleanDataToDisplay("patient_enrolled" $patient_enrolled)
+        #__hasBooleanDataToDisplay("family_members_enrolled" $family_members_enrolled)
+        #set($hasContent = $!editMode || $!past_tests_done || $!patient_enrolled || $!family_members_enrolled)
+        ##
+        ##
+        #if($hasContent)
+        === $services.localization.render('Past Workup') ===
+        #end
+        ##
+        #if ($!editMode || $!past_tests_done)  
+        #__label('' 'section group-title' 'Tests Performed')
+        
+        #__extradata_displayTable($targetClassName, {'counter' : true, 'mode' : $xcontext.action})
+        
+        #end
+        ##
+        #if($!editMode || $patient_enrolled || $family_members_enrolled)
+        
+        #__label('' 'section group-title' 'Sequencing Project Enrollment')
+        
+        #__displayCheckbox($patient_enrolled "patient_enrolled" $class)
+        #__displayCheckbox($family_members_enrolled "family_members_enrolled" $class)
+        #end
+        ##
+        #set ($class = $origClass)
+        #set ($discard = $doc.use($origObj))
+        #set ($obj = $origObj)
+        {{/velocity}}
+      </content>
+    </property>
+    <property>
+      <extensionPointId>org.phenotips.patientSheet.section.medical-history</extensionPointId>
+    </property>
+    <property>
+      <name>org.phenotips.patientSheet.field.past-workup</name>
+    </property>
+    <property>
+      <parameters>title=$services.localization.render('phenotips.UIXField.past-workup')
+        enabled=true
+        order=2
+        required=
+        fields=patient_enrolled,family_members_enrolled
+        pt_class=PhenoTips.PastWorkupClass</parameters>
+    </property>
+    <property>
+      <scope>wiki</scope>
+    </property>
+  </object>
+</xwikidoc>
