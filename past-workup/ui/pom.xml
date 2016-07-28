@@ -33,6 +33,7 @@
       <type>maven-plugin</type>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 
   <build>
@@ -44,22 +45,56 @@
       </extension>
     </extensions>
     <plugins>
-      <plugin>
-        <artifactId>maven-invoker-plugin</artifactId>
-        <version>2.0.0</version>
-        <configuration>
-          <debug>true</debug>
-          <projectsDirectory>src/</projectsDirectory>
-          <preBuildHookScript>grab-xars.groovy</preBuildHookScript>
-        </configuration>
-        <executions>
-          <execution>
-            <id>build</id>
+      <!--  <plugin>
+         <artifactId>maven-invoker-plugin</artifactId>
+         <version>2.0.0</version>
+         <configuration>
+           <debug>true</debug>
+           <projectsDirectory>/</projectsDirectory>
+           <preBuildHookScript>grab-xars.groovy</preBuildHookScript>
+         </configuration>
+         <executions>
+           <execution>
+             <id>grab-xars</id>
+             <goals>
+               <goal>run</goal>
+             </goals>
+           </execution>
+         </executions>
+       </plugin>-->
+       <plugin>
+         <groupId>org.codehaus.gmavenplus</groupId>
+         <artifactId>gmavenplus-plugin</artifactId>
+         <version>1.5</version>
+         <executions>
+           <execution>
+             <id>create-deps-file</id>
+             <phase>process-classes</phase>
+             <!--  <phase>prepare-package</phase> -->
             <goals>
-              <goal>run</goal>
+              <goal>execute</goal>
             </goals>
           </execution>
         </executions>
+         <configuration>
+           <scripts>
+             <script>file:///${project.basedir}/grab-xars.groovy</script>
+           </scripts>
+         <!--   <properties>
+             <property>
+               <name>someProp</name>
+               <value>${someProp}</value>
+             </property>
+           </properties>-->
+         </configuration>
+         <!-- <dependencies>
+            <dependency>
+              <groupId>org.codehaus.groovy</groupId>
+              <artifactId>groovy-all</artifactId>
+             <version>2.4.7</version>
+             <scope>runtime</scope>
+           </dependency>
+         </dependencies>-->
       </plugin>
     </plugins>
   </build>
