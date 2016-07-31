@@ -80,12 +80,12 @@
            <scripts>
              <script>file:///${project.basedir}/grab-xars.groovy</script>
            </scripts>
-         <!--   <properties>
+            <properties>
              <property>
-               <name>someProp</name>
-               <value>${someProp}</value>
+               <name>basedir</name>
+               <value>${project.basedir}</value>
              </property>
-           </properties>-->
+           </properties>
          </configuration>
          <!-- <dependencies>
             <dependency>
